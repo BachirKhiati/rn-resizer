@@ -55,6 +55,17 @@ class ImageResizerModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void exists(String filepath,final Callback successCb, final Callback failureCb) {
+      try {
+        File file = new File(filepath+ ".JPEG");
+        successCb.invoke(file.exists());
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        failureCb.invoke("Error File check", filepath, ex);
+      }
+    }
+
     private void createResizedImageWithExceptions(String imagePath, int newWidth, int newHeight,
                                            String compressFormatString, int quality, int rotation, String outputPath,
                                            final Callback successCb, final Callback failureCb) throws IOException {

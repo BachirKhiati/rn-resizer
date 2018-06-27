@@ -13,5 +13,10 @@ export default {
     return new Promise((resolve, reject) => {
       ImageResizerAndroid.tempPath(resolve, reject);
     });
+  },
+  exists: (imagePath) => {
+    return new Promise((resolve, reject) => {
+      ImageResizerAndroid.exists(imagePath,resolve, reject);
+    });
   }
 };

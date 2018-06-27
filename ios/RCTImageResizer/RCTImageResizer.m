@@ -35,21 +35,22 @@ bool saveImage(NSString * fullPath, UIImage * image, NSString * format, float qu
 NSString * generateFilePath(NSString * ext, NSString * outputPath)
 {
     NSString* directory;
-    
+
     if ([outputPath length] == 0) {
         NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         directory = [paths firstObject];
-    } else {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        directory = [documentsDirectory stringByAppendingPathComponent:outputPath];
-        NSError *error;
-        [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
-        if (error) {
-            NSLog(@"Error creating documents subdirectory: %@", error);
-            @throw [NSException exceptionWithName:@"InvalidPathException" reason:[NSString stringWithFormat:@"Error creating documents subdirectory: %@", error] userInfo:nil];
-        }
     }
+//    else {
+//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//        NSString *documentsDirectory = [paths objectAtIndex:0];
+//        directory = [documentsDirectory stringByAppendingPathComponent:outputPath];
+//        NSError *error;
+//        [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
+//        if (error) {
+//            NSLog(@"Error creating documents subdirectory: %@", error);
+//            @throw [NSException exceptionWithName:@"InvalidPathException" reason:[NSString stringWithFormat:@"Error creating documents subdirectory: %@", error] userInfo:nil];
+//        }
+//    }
     
     directory = [outputPath stringByDeletingLastPathComponent];
     NSString* name = [outputPath lastPathComponent];
@@ -63,21 +64,21 @@ NSString * generateFilePath(NSString * ext, NSString * outputPath)
 NSString * generateDirectoryPath()
 {
     NSString* directory;
-    
-    
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    directory = [paths firstObject];
-    return directory;
-    
-}
 
 
+        NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        directory = [paths firstObject];
+   return directory;
+  
+    }
+    
 
+    
 
 
 UIImage * rotateImage(UIImage *inputImage, float rotationDegrees)
 {
-    
+
     // We want only fixed 0, 90, 180, 270 degree rotations.
     const int rotDiv90 = (int)round(rotationDegrees / 90);
     const int rotQuadrant = rotDiv90 % 4;
@@ -103,8 +104,8 @@ UIImage * rotateImage(UIImage *inputImage, float rotationDegrees)
         }
         
         return [[UIImage alloc] initWithCGImage: inputImage.CGImage
-                                          scale: 1.0
-                                    orientation: orientation];
+                                                  scale: 1.0
+                                                  orientation: orientation];
     }
 }
 
@@ -122,9 +123,9 @@ RCT_EXPORT_METHOD(createResizedImage:(NSString *)path
     //Set image extension
     NSString *extension = @"jpg";
     if ([format isEqualToString:@"PNG"]) {
-        extension = @"png";
+        extension = @"jpg";
     }
-    
+
     
     NSString* fullPath;
     @try {
@@ -133,7 +134,7 @@ RCT_EXPORT_METHOD(createResizedImage:(NSString *)path
         callback(@[@"Invalid output path.", @""]);
         return;
     }
-    
+
     [_bridge.imageLoader loadImageWithURLRequest:[RCTConvert NSURLRequest:path] callback:^(NSError *error, UIImage *image) {
         if (error || image == nil) {
             if ([path hasPrefix:@"data:"] || [path hasPrefix:@"file:"]) {
@@ -147,7 +148,7 @@ RCT_EXPORT_METHOD(createResizedImage:(NSString *)path
                 return;
             }
         }
-        
+
         // Rotate image if rotation is specified.
         if (0 != (int)rotation) {
             image = rotateImage(image, rotation);
@@ -156,14 +157,14 @@ RCT_EXPORT_METHOD(createResizedImage:(NSString *)path
                 return;
             }
         }
-        
+
         // Do the resizing
         UIImage * scaledImage = [image scaleToSize:newSize];
         if (scaledImage == nil) {
             callback(@[@"Can't resize the image.", @""]);
             return;
         }
-        
+
         // Compress and save the image
         if (!saveImage(fullPath, scaledImage, format, quality)) {
             callback(@[@"Can't save the image. Check your compression format and your output path", @""]);
@@ -185,12 +186,14 @@ RCT_EXPORT_METHOD(createResizedImage:(NSString *)path
 }
 
 
-RCT_EXPORT_METHOD(tempPath:(RCTResponseSenderBlock)callback)
+
+RCT_EXPORT_METHOD(exists:(NSString *)imagePath
+                  callback:(RCTResponseSenderBlock)callback)
 {
-    // Change this depending on what you want to retrieve:
-    NSString* someString = @"something";
-    
-    callback(@[[NSNull null], someString]);
+NSString *path = [imagePath stringByAppendingString:@".jpg"];
+ BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:path];
+NSString *booleanString = (fileExists) ? @"true" : @"false";
+        callback(@[[NSNull null], booleanString]);
 }
 
 
@@ -206,18 +209,18 @@ RCT_EXPORT_METHOD(tempPath:
         callback(@[@"Invalid output path.", @""]);
         return;
     }
-    
-    
-    
-    NSURL *fileUrl = [[NSURL alloc] initFileURLWithPath:fullPath];
-    
-    NSDictionary *response = @{@"path": fullPath,
-                               @"uri": fileUrl.absoluteString,
-                               
-                               };
-    
-    callback(@[[NSNull null], response]);
-    
+
+
+
+         NSURL *fileUrl = [[NSURL alloc] initFileURLWithPath:fullPath];
+
+        NSDictionary *response = @{@"path": fullPath,
+                                   @"uri": fileUrl.absoluteString,
+
+                                   };
+        
+        callback(@[[NSNull null], response]);
+  
 }
 
 

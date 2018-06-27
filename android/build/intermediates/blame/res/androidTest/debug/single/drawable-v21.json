@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_edit_text_material.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/drawable-v21/abc_edit_text_material.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/drawable-v21/notification_action_background.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/c954c4149e06f2f49f02b48d7b541e69/res/drawable-v21/notification_action_background.xml"
+    }
+]

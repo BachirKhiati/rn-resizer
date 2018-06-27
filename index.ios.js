@@ -33,7 +33,21 @@ export default {
 
 
     });
+  },
+  exists: (imagePath) => {
+    return new Promise((resolve, reject) => {
+      NativeModules.ImageResizer.exists(imagePath, (err, response) => {
+        if (err) {
+          return reject(err);
+        }
+      
+        resolve(response);
+      });
+
+
+    });
   }
+  
 };
 
 

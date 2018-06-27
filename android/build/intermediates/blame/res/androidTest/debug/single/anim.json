@@ -1,0 +1,74 @@
+[
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_in.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/tooltip_enter.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/tooltip_enter.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_out.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_fade_out.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/catalyst_push_up_in.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/0ca7b0ff172333a00757d77db12e6304/res/anim/catalyst_push_up_in.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_slide_out_top.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/catalyst_slide_up.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/0ca7b0ff172333a00757d77db12e6304/res/anim/catalyst_slide_up.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/tooltip_exit.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/tooltip_exit.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/catalyst_fade_in.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/0ca7b0ff172333a00757d77db12e6304/res/anim/catalyst_fade_in.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/catalyst_fade_out.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/0ca7b0ff172333a00757d77db12e6304/res/anim/catalyst_fade_out.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/catalyst_push_up_out.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/0ca7b0ff172333a00757d77db12e6304/res/anim/catalyst_push_up_out.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/catalyst_slide_down.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/react-native-0.55.4.aar/0ca7b0ff172333a00757d77db12e6304/res/anim/catalyst_slide_down.xml"
+    },
+    {
+        "merged": "/Users/kidday/muntius-frontend/node_modules/react-native-image-resizer/android/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/kidday/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/962e84973c53e91ff4b66c347636cf8c/res/anim/abc_popup_exit.xml"
+    }
+]

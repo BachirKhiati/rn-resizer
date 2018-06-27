@@ -291,15 +291,19 @@ class ImageResizer {
 
         // Save the resulting image
         File path = context.getCacheDir();
+        String lastPathSegment;
         if (outputPath != null) {
-            path = new File(outputPath);
+            Uri uri = Uri.parse(outputPath);
+            lastPathSegment = uri.getLastPathSegment();
+        }else{
+            lastPathSegment = Long.toString(new Date().getTime());
         }
-
         File newFile = ImageResizer.saveImage(rotatedImage, path,
-                Long.toString(new Date().getTime()), compressFormat, quality);
+                lastPathSegment, compressFormat, quality);
 
         // Clean up remaining image
         rotatedImage.recycle();
+
 
         return newFile;
     }
