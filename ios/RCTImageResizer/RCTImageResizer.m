@@ -192,8 +192,7 @@ RCT_EXPORT_METHOD(exists:(NSString *)imagePath
 {
 NSString *path = [imagePath stringByAppendingString:@".jpg"];
  BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:path];
-NSString *booleanString = (fileExists) ? @"true" : @"false";
-        callback(@[[NSNull null], booleanString]);
+        callback(@[[NSNull null],[NSNumber numberWithBool:fileExists]]);
 }
 
 
