@@ -59,7 +59,10 @@ class ImageResizerModule extends ReactContextBaseJavaModule {
     public void exists(String filepath,final Callback successCb, final Callback failureCb) {
       try {
         File file = new File(filepath+ ".JPEG");
-        successCb.invoke(file.exists());
+        
+        WritableMap response = Arguments.createMap();
+        response.putBoolean("status", file.exists());
+        successCb.invoke(response);
       } catch (Exception ex) {
         ex.printStackTrace();
         failureCb.invoke("Error File check", filepath, ex);
