@@ -18,5 +18,6 @@ declare module "react-native-image-resizer" {
     ): Promise<Response>;
     
     export function tempPath(): Promise<Response>;
+    export function getAlbumList(): Promise<Response>;
     export function exists(): Promise<Response>;
 }

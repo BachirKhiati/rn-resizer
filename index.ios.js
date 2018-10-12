@@ -64,6 +64,19 @@ export default {
 
 
     });
+  },
+  getAlbumList: (option) => {
+    return new Promise((resolve, reject) => {
+      NativeModules.ImageResizer.getAlbumList(option, (err, response) => {
+        if (err) {
+          return reject(err);
+        }
+      
+        resolve(response);
+      });
+
+
+    });
   }
   
 };
