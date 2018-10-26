@@ -357,7 +357,7 @@ RCT_EXPORT_METHOD(getAlbumList:
     PHFetchOptions *userAlbumsOptions = [PHFetchOptions new];
       NSMutableArray *result = [[NSMutableArray alloc] init];
     userAlbumsOptions.predicate = [NSPredicate predicateWithFormat:@"estimatedAssetCount > 0"];
-    [result addObject:@"Library"];
+    [result addObject:@"Camera Roll"];
     
     PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:userAlbumsOptions];
     [userAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
