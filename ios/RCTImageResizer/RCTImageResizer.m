@@ -327,43 +327,116 @@ RCT_EXPORT_METHOD(tempPath:
 RCT_EXPORT_METHOD(getAlbumList:
                     callback:(RCTResponseSenderBlock)callback)
 {
-//      PHFetchResult<PHAssetCollection *> *collections =
-//      [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
-//                                               subtype:PHAssetCollectionSubtypeAny
-//                                               options:nil];
-//
-//      [collections enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        PHAssetCollectionSubtype type = [obj assetCollectionSubtype];
-//        if (!isAlbumTypeSupported(type)) {
-//          return;
-//        }
-//
-//        PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
-//        fetchOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType == %d", PHAssetMediaTypeImage];
-//        fetchOptions.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES] ];
-//        PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:obj options: fetchOptions];
-//        PHAsset *coverAsset = fetchResult.lastObject;
-//
-//        if (coverAsset) {
-//            NSDictionary *album = @{@"count": @(fetchResult.count),
-//                                    @"name": albumNameFromType(type),
-//                                    // Photos Framework asset scheme ph://
-//                                    @"cover": [NSString stringWithFormat:@"ph://%@", coverAsset.localIdentifier] };
-//            [result addObject:album];
-//        }
-//      }];
-     // resolve(result);
+
+    ///////////////////////////////////////////////
     
     PHFetchOptions *userAlbumsOptions = [PHFetchOptions new];
-      NSMutableArray *result = [[NSMutableArray alloc] init];
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    NSMutableArray *resultCount1 = [[NSMutableArray alloc] init];
+    NSMutableArray *resultCount2 = [[NSMutableArray alloc] init];
+
+    NSMutableArray *resulFinal = [[NSMutableArray alloc] init];
     userAlbumsOptions.predicate = [NSPredicate predicateWithFormat:@"estimatedAssetCount > 0"];
-    [result addObject:@"Camera Roll"];
+    
+    
+    /////////////////////////////////////////////
+    /// CameraRoll album name, oldest/latest asset date and asset count
+    __block PHAssetCollection *collection;
+    PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
+    __block NSNumber *oldestAsset,*NewestAsset;
+    collection = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
+                                                          subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary
+                                                          options:fetchOptions].firstObject;
+
+    PHFetchResult *collectionResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+    __block int i = 0;
+    [collectionResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop)
+    {
+        if(i == 0){
+            oldestAsset = @(asset.creationDate.timeIntervalSince1970);
+        }
+        if(i == collectionResult.count - 1){
+            NewestAsset = @(asset.creationDate.timeIntervalSince1970);
+        }
+        i++;
+     
+        
+        //add assets to an array for later use in the uicollectionviewcell
+    }];
+    
+    [result addObject:[NSString stringWithFormat:@"%@%@%lu%@", @"Camera Roll",@" (", (unsigned long)collectionResult.count,@")"]];
+    [resultCount1 addObject:@{
+                             @"title": @"Camera Roll",
+                             @"assetCount": @(collectionResult.count),
+                             @"oldestAsset": oldestAsset,
+                             @"newestAsset": NewestAsset,
+                             }];
+    [resulFinal addObject:resultCount1[0]];
+    /////////////////////////////////
+    //////////////////////////////////////////////
+    
+   
+    //////////////////////////////////////////////
+    /// Fetch other albums name and  asset count
+    
+
+    
     
     PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:userAlbumsOptions];
     [userAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
-        [result addObject:collection.localizedTitle];
+        [result addObject:[NSString stringWithFormat:@"%@%@%lu%@", [collection localizedTitle ],@" (", (unsigned long)[collection estimatedAssetCount],@")"]];
+        [resultCount2 addObject:@{
+                                 @"title": [collection localizedTitle],
+                                 @"assetCount": @([collection estimatedAssetCount])
+                                 }];
     }];
-    NSDictionary *response = @{@"albums": result};
+    
+    /////////////////////////////////
+    //////////////////////////////////////////////
+    
+    //////////////////////////////////////////////
+    /// Fetch album oldest/latest asset date
+    
+    for(int j = 0; j<resultCount2.count; j++){
+        i = 0;
+        fetchOptions.predicate = [NSPredicate predicateWithFormat:@"title = %@", [resultCount2[j] valueForKey:@"title"]];
+        collection = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
+                                                              subtype:PHAssetCollectionSubtypeAny
+                                                              options:fetchOptions].firstObject;
+        collectionResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+        [collectionResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+            if(collectionResult.count == 1){
+                NSLog(@"NewestAsset asset date::%@",asset.creationDate);
+                NewestAsset = @(asset.creationDate.timeIntervalSince1970);
+                oldestAsset = @(asset.creationDate.timeIntervalSince1970);
+            } else {
+            if(i == 0){
+                NSLog(@"oldestAsset aseet date::%@",asset.creationDate);
+                
+                oldestAsset = @(asset.creationDate.timeIntervalSince1970);
+            }
+            if(i == collectionResult.count - 1){
+                NSLog(@"NewestAsset asset date::%@",asset.creationDate);
+                NewestAsset = @(asset.creationDate.timeIntervalSince1970);
+            }
+            i++;
+            }
+        }];
+        [resulFinal addObject:@{
+                                @"title": [NSString stringWithFormat:@"%@", [resultCount2[j] valueForKey:@"title"]],
+                                @"assetCount": [NSString stringWithFormat:@"%@", [resultCount2[j] valueForKey:@"assetCount"]],
+                                @"oldestAsset": oldestAsset,
+                                @"newestAsset": NewestAsset,
+                                   }];
+    }
+
+    
+    /////////////////////////////////
+    //////////////////////////////////////////////
+    
+    NSDictionary *response = @{@"titles": result,
+                               @"albumDetails": resulFinal
+                               };
         callback(@[[NSNull null], response]);
 }
 
@@ -371,5 +444,3 @@ RCT_EXPORT_METHOD(getAlbumList:
 
 
 @end
-
-
