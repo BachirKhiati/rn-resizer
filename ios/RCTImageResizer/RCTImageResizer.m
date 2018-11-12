@@ -338,9 +338,10 @@ RCT_EXPORT_METHOD(getAlbumList:
     NSMutableArray *resulFinal = [[NSMutableArray alloc] init];
     userAlbumsOptions.predicate = [NSPredicate predicateWithFormat:@"estimatedAssetCount > 0"];
     
-    
+
     /////////////////////////////////////////////
     /// CameraRoll album name, oldest/latest asset date and asset count
+     @try {
     __block PHAssetCollection *collection;
     PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
     __block NSNumber *oldestAsset,*NewestAsset;
@@ -363,7 +364,7 @@ RCT_EXPORT_METHOD(getAlbumList:
         
         //add assets to an array for later use in the uicollectionviewcell
     }];
-    
+         
     [result addObject:[NSString stringWithFormat:@"%@%@%lu%@", @"Camera Roll",@" (", (unsigned long)collectionResult.count,@")"]];
     [resultCount1 addObject:@{
                              @"title": @"Camera Roll",
@@ -378,7 +379,6 @@ RCT_EXPORT_METHOD(getAlbumList:
    
     //////////////////////////////////////////////
     /// Fetch other albums name and  asset count
-    
 
     
     
@@ -390,7 +390,7 @@ RCT_EXPORT_METHOD(getAlbumList:
                                  @"assetCount": @([collection estimatedAssetCount])
                                  }];
     }];
-    
+        
     /////////////////////////////////
     //////////////////////////////////////////////
     
@@ -433,14 +433,19 @@ RCT_EXPORT_METHOD(getAlbumList:
     
     /////////////////////////////////
     //////////////////////////////////////////////
-    
-    NSDictionary *response = @{@"titles": result,
-                               @"albumDetails": resulFinal
-                               };
+    } @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+       
+    }
+    @finally {
+        NSDictionary *response = @{@"titles": result,
+                                   @"albumDetails": resulFinal
+                                   };
         callback(@[[NSNull null], response]);
+    }
+
+    
+
 }
-
-
-
 
 @end
