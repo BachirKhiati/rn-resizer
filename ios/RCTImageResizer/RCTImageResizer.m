@@ -365,9 +365,9 @@ RCT_EXPORT_METHOD(getAlbumList:
         //add assets to an array for later use in the uicollectionviewcell
     }];
          
-    [result addObject:[NSString stringWithFormat:@"%@%@%lu%@", @"Camera Roll",@" (", (unsigned long)collectionResult.count,@")"]];
+    [result addObject:[NSString stringWithFormat:@"%@%@%lu%@", collection.localizedTitle,@" (", (unsigned long)collectionResult.count,@")"]];
     [resultCount1 addObject:@{
-                             @"title": @"Camera Roll",
+                             @"title": collection.localizedTitle,
                              @"assetCount": @(collectionResult.count),
                              @"oldestAsset": oldestAsset,
                              @"newestAsset": NewestAsset,
