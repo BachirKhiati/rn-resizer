@@ -10,9 +10,14 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
+
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
@@ -38,9 +43,8 @@ class ImageResizer {
         }
 
         if (maxHeight > 0 && maxWidth > 0) {
-            float width = image.getWidth();
-            float height = image.getHeight();
-
+            float width = maxWidth;
+            float height = maxHeight;
             float ratio = Math.min((float)maxWidth / width, (float)maxHeight / height);
 
             int finalWidth = (int) (width * ratio);
@@ -262,6 +266,7 @@ class ImageResizer {
                                             int newHeight, Bitmap.CompressFormat compressFormat,
                                             int quality, int rotation, String outputPath) throws IOException  {
         Bitmap sourceImage = null;
+        Integer imageHeight = null, imageWidth = null;
         String imageUriScheme = imageUri.getScheme();
         if (imageUriScheme == null || imageUriScheme.equalsIgnoreCase(SCHEME_FILE) || imageUriScheme.equalsIgnoreCase(SCHEME_CONTENT)) {
             sourceImage = ImageResizer.loadBitmapFromFile(context, imageUri, newWidth, newHeight);
@@ -272,39 +277,57 @@ class ImageResizer {
         if (sourceImage == null) {
             throw new IOException("Unable to load source image from path");
         }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        InputStream in = null;
+        try {
+            in = context.getContentResolver().openInputStream(
+                imageUri);
+            BitmapFactory.decodeStream(in, null, options);
+            imageHeight = options.outHeight;
+            imageWidth = options.outWidth;
 
+
+            Bitmap scaledImage = ImageResizer.resizeImage(sourceImage, imageWidth, imageHeight);
+            if (sourceImage != scaledImage) {
+                sourceImage.recycle();
+            }
+
+            // Rotate if necessary
+            Bitmap rotatedImage = scaledImage;
+            int orientation = getOrientation(context, imageUri);
+            rotation = orientation + rotation;
+            rotatedImage = ImageResizer.rotateImage(scaledImage, rotation);
+
+            if (scaledImage != rotatedImage) {
+                scaledImage.recycle();
+            }
+
+            // Save the resulting image
+            File path = context.getCacheDir();
+            String lastPathSegment;
+            if (outputPath != null) {
+                Uri uri = Uri.parse(outputPath);
+                lastPathSegment = uri.getLastPathSegment();
+            }else{
+                lastPathSegment = Long.toString(new Date().getTime());
+            }
+            File newFile = ImageResizer.saveImage(rotatedImage, path,
+                    lastPathSegment, compressFormat, quality);
+
+            // Clean up remaining image
+            rotatedImage.recycle();
+
+
+            return newFile;
+
+
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+            return null;
+        }
         // Scale it first so there are fewer pixels to transform in the rotation
-        Bitmap scaledImage = ImageResizer.resizeImage(sourceImage, newWidth, newHeight);
-        if (sourceImage != scaledImage) {
-            sourceImage.recycle();
-        }
 
-        // Rotate if necessary
-        Bitmap rotatedImage = scaledImage;
-        int orientation = getOrientation(context, imageUri);
-        rotation = orientation + rotation;
-        rotatedImage = ImageResizer.rotateImage(scaledImage, rotation);
-
-        if (scaledImage != rotatedImage) {
-            scaledImage.recycle();
-        }
-
-        // Save the resulting image
-        File path = context.getCacheDir();
-        String lastPathSegment;
-        if (outputPath != null) {
-            Uri uri = Uri.parse(outputPath);
-            lastPathSegment = uri.getLastPathSegment();
-        }else{
-            lastPathSegment = Long.toString(new Date().getTime());
-        }
-        File newFile = ImageResizer.saveImage(rotatedImage, path,
-                lastPathSegment, compressFormat, quality);
-
-        // Clean up remaining image
-        rotatedImage.recycle();
-
-
-        return newFile;
     }
 }
